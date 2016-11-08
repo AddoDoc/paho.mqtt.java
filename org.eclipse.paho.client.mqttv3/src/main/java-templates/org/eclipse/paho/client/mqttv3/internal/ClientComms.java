@@ -164,7 +164,7 @@ public class ClientComms {
 			} else {
 				this.internalSend(message, token);
 			}
-		} else if(disconnectedMessageBuffer != null && isResting()){
+		} else if(disconnectedMessageBuffer != null /* && isResting() */ ){ // Workaround for https://github.com/eclipse/paho.mqtt.android/issues/150
 			//@TRACE 508=Client Resting, Offline Buffer available. Adding message to buffer. message={0}
 			log.fine(CLASS_NAME, methodName, "508", new Object[] {message.getKey()});
 			if(disconnectedMessageBuffer.isPersistBuffer()){
