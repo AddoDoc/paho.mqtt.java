@@ -91,10 +91,15 @@ public class ConnectActionListener implements IMqttActionListener {
     userToken.internalTok.markComplete(token.getResponse(), null);
     userToken.internalTok.notifyComplete();
     userToken.internalTok.setClient(this.client); // fix bug 469527 - maybe should be set elsewhere?
-
-    if(reconnect){
+  
+    /* *   
+       * DisconnectedMessageBuffer is getting carried between sessions(through persistence) while it's not yet connected even once. 
+       * Assuming this is an optimization, this should not affect anything.
+       * This only ensures that the DisconnectedMessageBuffer is flushed even for first connection.
+       * */ 
+//     if(reconnect){ 
 		comms.notifyReconnect();
-    }
+//     }
 
     if (userCallback != null) {
       userToken.setUserContext(userContext);
