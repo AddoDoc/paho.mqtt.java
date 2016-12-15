@@ -1219,6 +1219,7 @@ public class MqttAsyncClient implements IMqttAsyncClient { // DestinationProvide
 		log.fine(CLASS_NAME, methodName, "504", new Object[]{this.clientId});
 		if(reconnectTimer != null){
 			reconnectTimer.cancel();
+			reconnectTimer = null; // Discard the existing Timer so that it's not reused
 		}
 		reconnectDelay = 1000; // Reset Delay Timer
 		
@@ -1228,9 +1229,11 @@ public class MqttAsyncClient implements IMqttAsyncClient { // DestinationProvide
 		String methodName = "rescheduleReconnectCycle";
 		//@Trace 505=Rescheduling reconnect timer for client: {0}, delay: {1}
 		log.fine(CLASS_NAME, methodName, "505", new Object[]{this.clientId, new Long(reconnectDelay)});
-		if(reconnectTimer != null){
-			reconnectTimer.schedule(new ReconnectTask(), reconnectDelay);
+		if(reconnectTimer == null){
+			reconnectTimer = new Timer();
 		}
+		reconnectTimer.schedule(new ReconnectTask(), reconnectDelay);
+
 
 	}
 	
