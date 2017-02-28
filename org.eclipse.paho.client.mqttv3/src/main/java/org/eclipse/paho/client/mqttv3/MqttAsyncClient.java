@@ -1240,8 +1240,8 @@ public class MqttAsyncClient implements IMqttAsyncClient { // DestinationProvide
 					// The previous reconnect timer was cancelled
 					reconnectDelay = delay;
 					startReconnectCycle();
-
-	}
+				}
+			}	
 		}
 	}
 	
